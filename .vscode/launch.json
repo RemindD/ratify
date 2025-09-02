@@ -56,9 +56,10 @@
       ]
     },
     {
-      // This requires your kubeconfig to be pointed at a cluster with Ratify CRDs installed
-      // This requires you to have generated server TLS certs: tls.crt, tls.key, ca.crt, ca.key and placed them in a single directory
-      // This requires you to have a client CA cert (Gatekeeper CA cert) to verify the client cert
+      // This requires:
+      // 1. Your kubeconfig to be pointed at a cluster with Ratify CRDs installed
+      // 2. Server TLS certs: tls.crt, tls.key, ca.crt, ca.key in a single directory (specified by --cert-dir)
+      // 3. One or more client CA certificates for mTLS client authentication (comma-separated paths in --ca-cert-files)
       "name": "Serve w/ CRD manager and TLS enabled",
       "type": "go",
       "request": "launch",
@@ -74,7 +75,7 @@
         "--http",
         ":6001",
         "--cert-dir=${input:tlsDir}",
-        "--ca-cert-file=${input:clientCACert}",
+        "--ca-cert-files=${input:clientCACertFiles}",
         "--config=${input:configPath}"
       ]
     },
@@ -114,10 +115,10 @@
       "default": "${workspaceFolder}/tls/certs"
     },
     {
-      "id": "clientCACert",
+      "id": "clientCACertFiles",
       "type": "promptString",
-      "description": "Absolute path to client CA cert (Gatekeeper CA cert)",
-      "default": "${workspaceFolder}/client-ca-cert/ca.crt"
+      "description": "Comma-separated paths to client CA certificate files",
+      "default": "${workspaceFolder}/client-ca-cert/ca.crt,${workspaceFolder}/client-ca-cert/custom-ca.crt"
     }
   ]
 }
