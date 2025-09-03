@@ -1,0 +1,7 @@
+provider:
+  clientAuth:
+    caCerts:
+      - secretName: first-client-ca
+        secretKey: ca.crt
+      - secretName: second-client-ca
+        secretKey: ca.crt
